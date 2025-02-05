@@ -3,6 +3,12 @@ import { MongoMemoryServer } from 'mongodb-memory-server';
 import mongoose from 'mongoose';
 import app from '../../app.js';
 
+// Mock helmet using Vitest's vi.mock
+vi.mock('helmet', () => ({
+  __esModule: true,
+  default: () => (req, res, next) => next(),
+}));
+
 describe('Shipment API Integration Tests', () => {
   let mongoServer;
 

@@ -61,8 +61,8 @@ Ensure you have the following installed:
 1. Clone the repository:
 
    ```sh
-   git clone https://github.com/yourusername/shipping-api.git
-   cd shipping-api
+   git clone https://github.com/demola07/shipment-pricing-api
+   cd shipment-pricing-api
    ```
 
 2. Install dependencies:
@@ -75,7 +75,7 @@ Ensure you have the following installed:
 
    ```sh
    PORT=3000
-   MONGO_URI=mongodb://localhost:27017/shipping_db
+   MONGO_URI=mongodb://localhost:27017/<database_name>
    ```
 
    Replace `MONGO_URI` with your actual MongoDB connection string.
@@ -113,10 +113,6 @@ npm start
 **POST** `/api/shipments/calculate`
 
 #### Request Body:
-
-Since the `currency` field is optional, the documentation should reflect how the system handles it when omitted. Here's an updated version:
-
----
 
 ### **Calculating Shipping Cost**
 To calculate the shipping cost, send a `POST` request to:
@@ -306,6 +302,14 @@ Run tests with coverage:
 ```sh
 npm run test:coverage
 ```
+
+## Security Features
+
+### Helmet
+- Helmet is used to secure HTTP headers in your Express application, helping to protect against common vulnerabilities.
+
+### Rate Limiting
+- The API implements rate limiting to prevent abuse. Each IP address is limited to 100 requests per 15 minutes. If the limit is exceeded, a `429 Too Many Requests` response is returned.
 
 ## License
 
