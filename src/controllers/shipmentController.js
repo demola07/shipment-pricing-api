@@ -2,6 +2,7 @@ import shipmentService from '../services/shipmentService.js';
 import { validatePricingPayload } from '../utils/shipmentPricingValidation.js';
 import Response from '../utils/response.js';
 import AppError from '../utils/appError.js';
+import pricingRepository from '../repositories/pricingRepository.js';
 
 class ShipmentController {
   async calculatePrice(req, res, next) {
@@ -48,18 +49,16 @@ class ShipmentController {
     }
   }
 
-  async getAllPricing(req, res, next) {
-    try {
-      const result = await shipmentService.getAllPricing();
+  async getAllPricing(req, res) {
+    const { page = 1, limit = 10 } = req.query; // Get pagination parameters from query
 
-      if (!result.success) {
-        throw new AppError(result.message, result.statusCode || 500);
-      }
+    const pricingResult = await pricingRepository.getAllPricing(Number(page), Number(limit));
 
-      return Response.success(res, 'Pricing retrieved successfully', result.data);
-    } catch (error) {
-      next(error);
+    if (!pricingResult.success) {
+      return res.status(400).json(pricingResult);
     }
+
+    return res.status(200).json(pricingResult);
   }
 }
 

@@ -231,28 +231,31 @@ POST /api/shipments/calculate
 
 ### Get All Pricing Configurations
 
-**GET** `/api/shipments/pricing`
+**GET** `/api/shipments/pricing?page=1&limit=10`
+
+#### Query Parameters:
+- `page`: The page number to retrieve (default is 1).
+- `limit`: The number of records per page (default is 10).
 
 #### Response:
-
 ```json
 {
+    "success": true,
     "message": "Pricing retrieved successfully",
-    "data": [
-        {
-            "_id": "67a36f81071d7a5257754aae",
-            "cargoType": "standard",
-            "basePrice": 5000,
-            "pricePerKm": 100,
-            "pricePerKg": 200,
-            "currency": "NGN",
-            "createdAt": "2025-02-05T14:02:41.928Z",
-            "__v": 0,
-            "displayCurrency": "NGN",
-            "originalCurrency": "NGN"
-        }
-    ],
-    "success": true
+    "data": {
+        "total": 50, // Total number of records
+        "page": 1,   // Current page
+        "limit": 10, // Records per page
+        "pricing": [
+            {
+                "cargoType": "standard",
+                "basePrice": 5000,
+                "pricePerKm": 100,
+                "pricePerKg": 200,
+                "currency": "NGN"
+            }
+        ]
+    }
 }
 ```
 

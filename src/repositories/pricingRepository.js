@@ -32,12 +32,21 @@ class PricingRepository {
     }
   }
 
-  async getAllPricing() {
+  async getAllPricing(page = 1, limit = 10) {
     try {
-      const pricing = await Pricing.find({});
+      const pricing = await Pricing.find({}, 'cargoType basePrice pricePerKm pricePerKg currency')
+        .skip((page - 1) * limit) // Skip the records for the current page
+        .limit(limit) // Limit the number of records returned
+        .lean();
+      const total = await Pricing.countDocuments(); // Get total count for pagination info
       return {
         success: true,
-        data: pricing
+        data: {
+          total,
+          page,
+          limit,
+          pricing
+        }
       };
     } catch (error) {
       return {
